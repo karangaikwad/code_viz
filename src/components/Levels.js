@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from "react";
 import BarChart from "./BarChart";
-function Problems(props) {
+function Levels(props) {
   const [userData, setUserData] = useState(null);
-  let ratingData = {};
+  let levelingData = {};
   let problemName = [];
   let labels = [];
   let data = [];
-  const getRatingData = () => {
+  const getLevelData = () => {
     for (let i = 0; i < userData.result.length; i++) {
       if (
         userData.result[i].verdict === "OK" &&
         problemName.indexOf(userData.result[i].problem.name) === -1
       ) {
-        if (userData.result[i].problem.rating) {
-          if (!ratingData[userData.result[i].problem.rating]) {
-            ratingData[userData.result[i].problem.rating] = 0;
+        if (userData.result[i].problem.index[0]) {
+          if (!levelingData[userData.result[i].problem.index[0]]) {
+            levelingData[userData.result[i].problem.index[0]] = 0;
           }
-          ratingData[userData.result[i].problem.rating]++;
+          levelingData[userData.result[i].problem.index[0]]++;
         }
         problemName.push(userData.result[i].problem.name);
       }
     }
-    for (const [key, value] of Object.entries(ratingData)) {
+    const sorted = Object.keys(levelingData)
+      .sort()
+      .reduce((accumulator, key) => {
+        accumulator[key] = levelingData[key];
+
+        return accumulator;
+      }, {});
+    // console.log(sorted);
+
+    for (const [key, value] of Object.entries(sorted)) {
       labels.push(key);
       data.push(value);
     }
@@ -38,11 +47,12 @@ function Problems(props) {
       setUserData(data);
     }
   }, [props.name]);
-  if (userData) getRatingData();
+  //   console.log(userData);
+  if (userData) getLevelData();
   return (
     <>
       <BarChart
-        name={"Problem Ratings"}
+        name={"Problem Levels"}
         labels={labels}
         data={data}
         color={"rgba(54, 162, 235, 0.2)"}
@@ -52,4 +62,4 @@ function Problems(props) {
   );
 }
 
-export default Problems;
+export default Levels;

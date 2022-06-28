@@ -14,7 +14,7 @@ function BarChart(props) {
     labels: props.labels,
     datasets: [
       {
-        label: "Problem ratings",
+        label: props.name,
         data: props.data,
         backgroundColor: colors,
         borderColor: borderColors,
