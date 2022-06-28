@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
+import "./App.css";
+import Search from "./components/Search";
+import Rating from "./components/Rating";
+import Problems from "./components/Problems";
 function App() {
+  const [username, setUserName] = useState("karanrg");
+  const handleUserName = (user) => {
+    setUserName(user);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search handleUserName={handleUserName} />
+      <Rating name={username} />
+      <Problems name={username} />
     </div>
   );
 }
